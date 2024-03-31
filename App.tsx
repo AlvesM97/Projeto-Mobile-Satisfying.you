@@ -17,6 +17,8 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import Botao from './src/components/Botao';
+import ModificarPesquisa from './src/views/modificarPesquisa';
 
 
 
@@ -33,7 +35,7 @@ function App(): React.JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-            <Text>Projeto Mobile - Satisfying.you</Text>
+            <ModificarPesquisa/>
         </View>
     </SafeAreaView>
   );
