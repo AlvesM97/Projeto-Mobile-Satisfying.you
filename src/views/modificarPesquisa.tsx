@@ -33,9 +33,7 @@ const ModificarPesquisa: React.FC = () => {
           <Text>Ícone de Imagem</Text>
         </View>
 
-        {/* Botões */}
         <Botao texto="SALVAR" onPress={() => console.log('Salvar pressionado')} />
-        {/* Adicione outro botão para "Apagar" de forma semelhante */}
       </View>
     </ScrollView>
   );
@@ -63,12 +61,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    backgroundColor: '#F0F0F0', // Cor de fundo do input
+    backgroundColor: '#F0F0F0',
     height: 40,
   },
   imageContainer: {
     height: 40,
-    backgroundColor: '#F0F0F0', // Cor de fundo da imagem
+    backgroundColor: '#F0F0F0',
     justifyContent: 'center',
     alignItems: 'center',
   },
