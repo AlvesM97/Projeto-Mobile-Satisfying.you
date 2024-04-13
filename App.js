@@ -22,7 +22,7 @@ import ModificarPesquisa from './src/views/modificarPesquisa';
 
 
 
-function App(): React.JSX.Element {
+function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {

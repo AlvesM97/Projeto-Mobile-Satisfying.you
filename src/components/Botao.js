@@ -14,9 +14,9 @@ const Botao = (props) => {
 
 const estilos = StyleSheet.create({
     fundo: {
-        marginTop: 20,
         backgroundColor: '#37BD6D',
-        height: 45,
+        width: 460,
+        height: 30,
         alignItems: 'center',
         justifyContent: 'center',
     },
