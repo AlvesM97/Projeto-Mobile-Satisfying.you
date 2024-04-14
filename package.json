@@ -10,11 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-<<<<<<< Updated upstream
-=======
     "@react-native-community/datetimepicker": "^7.6.3",
     "expo-cli": "^6.3.10",
->>>>>>> Stashed changes
     "react": "18.2.0",
     "react-native": "0.73.6"
   },
