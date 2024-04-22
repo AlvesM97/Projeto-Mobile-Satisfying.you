@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import Botao from '../components/Botao';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Botao from '../components/Botao';
+export default function DetailsScreen() {
 
-const ModificarPesquisa = () => {
+  const [nome, setNome] = useState('');
+  const [data, setData] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [nomeError, setNomeError] = useState('');
+  const [dataError, setDataError] = useState('');
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
       setSelectedDate(selectedDate);
+      setData(selectedDate.toLocaleDateString('pt-BR'));
+      setDataError('');
     }
   };
 
@@ -19,25 +25,48 @@ const ModificarPesquisa = () => {
     setShowDatePicker(!showDatePicker);
   };
 
+  const validateData = () => {
+    if (!nome.trim()) {
+      setNomeError('Nome não pode ser vazio.');
+      return false;
+    } else {
+      setNomeError('');
+    }
+
+    if (!data) {
+      setDataError('Data não pode ser vazia.');
+      return false;
+    } else {
+      setDataError('');
+    }
+
+    return true;
+  };
+
+  const handleSave = () => {
+    if (validateData()) {
+      Alert.alert('Validação', 'Dados válidos!');
+    }
+  };
+
   return (
     <ScrollView>
-      {/* <Header icon='arrow-back' title='Modificar Pesquisa' color='#573FBA' /> */}
-
       <View style={styles.container}>
-        <Text style={styles.label}>Nome</Text>
-        <TextInput
-          value="Carnaval 2024"
-          style={styles.input}
-        />
+        <View style={styles.nameSubContainer}>
+          <Text style={styles.label}>Nome</Text>
+          <TextInput
+            value={nome}
+            onChangeText={setNome}
+            style={styles.input}
+            onBlur={validateData}
+          />
+          {nomeError ? <Text style={styles.errorText}>{nomeError}</Text> : null}
+        </View>
 
         <Text style={styles.label}>Data</Text>
         <TouchableOpacity style={styles.dateInputContainer} onPress={toggleDatePicker}>
-          <Text style={styles.input} numberOfLines={1} ellipsizeMode="tail">{selectedDate.toLocaleDateString('pt-BR')}</Text>
-          <Icon
-            name='calendar-month'
-            color='#B0CCDE'
-            size={24}
-          />
+          <Text style={styles.input} numberOfLines={1} ellipsizeMode="tail">{data || 'dd/mm/yyyy'}</Text>
+          <Icon name='calendar-month' color='#B0CCDE' size={24} />
         </TouchableOpacity>
         {showDatePicker && (
           <DateTimePicker
@@ -48,26 +77,22 @@ const ModificarPesquisa = () => {
             onChange={onChangeDate}
           />
         )}
+        {dataError ? <Text style={styles.errorText}>{dataError}</Text> : null}
 
         <Text style={styles.label}>Imagem</Text>
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://reactnative.dev/img/tiny_logo.png',
-            }}
+          <TextInput
+            style={styles.imageInput}
+            multiline
+            numberOfLines={4}
+            placeholder="Câmera/Galeria de imagens"
           />
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Botao texto="SALVAR" onPress={() => console.log('Salvar pressionado')} />
+          <Botao texto="CADASTRAR" onPress={() => handleSave} />
         </View>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => console.log('Apagar pressionado')}>
-          <Icon name="delete" size={24} color="white" style={styles.deleteIcon} />
-          <Text style={styles.deleteText}>Apagar</Text>
-        </TouchableOpacity>
       </View>
-
     </ScrollView>
   );
 }
@@ -121,21 +146,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20,
   },
-  deleteButton: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    paddingBottom: 20,
-    paddingRight: 20,
-  },
-  deleteIcon: {
-    marginLeft: 5,
-  },
-  deleteText: {
-    color: 'white',
+  errorText: {
+    color: 'red',
+    fontSize: 14
   },
 });
-
-export default ModificarPesquisa;
