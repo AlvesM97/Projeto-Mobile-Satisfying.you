@@ -13,7 +13,8 @@
     "@react-native-community/datetimepicker": "^7.6.3",
     "expo-cli": "^6.3.10",
     "react": "18.2.0",
-    "react-native": "0.73.6"
+    "react-native": "0.73.6",
+    "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
