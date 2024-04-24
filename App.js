@@ -1,46 +1,29 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import NovaConta from './src/views/NovaConta';
+import Relatorio from './src/views/Relatorio';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-
-
+const Stack = createStackNavigator();
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-            <Text>Projeto Mobile - Satisfying.you</Text>
-        </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="NovaConta"
+          component={NovaConta}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Relatorio"
+          component={Relatorio}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-
-});
 
 export default App;
