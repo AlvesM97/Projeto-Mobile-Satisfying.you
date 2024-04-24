@@ -125,8 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   newSearchButtonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 18,
     color: '#fff',
     paddingRight: 22,
     fontFamily: 'AveriaLibre-Regular',
