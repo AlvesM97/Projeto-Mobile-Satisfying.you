@@ -28,6 +28,7 @@ export default function App() {
             fontFamily: 'AveriaLibre-Regular',
           },
         }}>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen
           name="Home"
           component={Home}
@@ -36,7 +37,7 @@ export default function App() {
             headerLeft: () => (
               <TouchableOpacity
                 onPress={() => {
-                 
+
                 }}>
                 <Icon
                   style={styles.styleIcon}
