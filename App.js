@@ -6,7 +6,12 @@ import DetailsScreen from './src/views/DetailsScreen';
 import Login from './src/views/Login'
 import Drawer from './src/views/Drawer'
 import ModificarPesquisa from './src/views/ModificarPesquisa';
-const Stack = createNativeStackNavigator();
+import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Home from './src/views/home';
+import acoesPesquisa from './src/views/acoesPesquisa';
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
@@ -17,13 +22,50 @@ export default function App() {
           headerStyle: {
             backgroundColor: '#2B1D62',
           },
-          headerTintColor: '#573FBA',
-        }}
-      >
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 35,
+            fontFamily: 'AveriaLibre-Regular',
+          },
+        }}>
         <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
+          name="Home"
+          component={Home}
+          options={{
+            headerTitle: '',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                 
+                }}>
+                <Icon
+                  style={styles.styleIcon}
+                  name="menu"
+                  size={40}
+                  color="#fff"
+                />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="acoesPesquisa"
+          component={acoesPesquisa}
+          options={{
+            headerTitle: 'Carnaval',
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => {
+                }}>
+                <Icon
+                  style={styles.styleIcon}
+                  name="arrow-back"
+                  size={40}
+                  color="#573FBA"
+                />
+              </TouchableOpacity>
+            ),
+          }}
         />
         <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
         <Stack.Screen name="NovaPesquisa" component={DetailsScreen} options={{ headerTitleStyle: { color: "white" } }} />
