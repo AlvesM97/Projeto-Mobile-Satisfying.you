@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
+import { useNavigation } from '@react-navigation/native';
+
 export default function DetailsScreen() {
 
   const [nome, setNome] = useState('');
@@ -11,6 +13,7 @@ export default function DetailsScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
+  const navigation = useNavigation();
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -45,6 +48,7 @@ export default function DetailsScreen() {
 
   const handleSave = () => {
     if (validateData()) {
+      navigation.navigate('Modificar Pesquisa');
       Alert.alert('Validação', 'Dados válidos!');
     }
   };
@@ -90,7 +94,7 @@ export default function DetailsScreen() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Botao texto="CADASTRAR" onPress={() => handleSave} />
+          <Botao texto="CADASTRAR" onPress={() => handleSave()} />
         </View>
       </View>
     </ScrollView>

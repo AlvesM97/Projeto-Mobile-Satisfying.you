@@ -21,8 +21,6 @@ const ModificarPesquisa = () => {
 
   return (
     <ScrollView>
-      {/* <Header icon='arrow-back' title='Modificar Pesquisa' color='#573FBA' /> */}
-
       <View style={styles.container}>
         <Text style={styles.label}>Nome</Text>
         <TextInput

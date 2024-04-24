@@ -4,28 +4,31 @@ import { Text, View, StyleSheet } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 
-
-
 const CustomDrawer = (props) => {
     const navigation = useNavigation();
     const handleLogout = () => {
         navigation.navigate('Login');
     };
+
     return (
-        <DrawerContentScrollView {...props} style={styles.drawerContent}>
-            <View style={styles.viewUser}>
-                <Text style={styles.text}>usuario@dominio.com</Text>
-                <View style={styles.separator}></View>
+        <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
+            <View style={styles.container}>
+                <View style={styles.viewUser}>
+                    <Text style={styles.text}>usuario@dominio.com</Text>
+                    <View style={styles.separator}></View>
+                </View>
+                <DrawerItemList {...props} />
             </View>
-            <DrawerItemList {...props} />
-            <DrawerItem
-                label="Sair"
-                labelStyle={styles.labelStyle}
-                icon={({ color, size }) => (
-                    <MaterialIcons name="logout" color={color} size={size} />
-                )}
-                onPress={() => handleLogout()}
-            />
+            <View style={styles.bottomView}>
+                <DrawerItem
+                    label="Sair"
+                    labelStyle={styles.labelStyle}
+                    icon={() => (
+                        <MaterialIcons name="logout" color="#fff" size={25} />
+                    )}
+                    onPress={() => handleLogout()}
+                />
+            </View>
         </DrawerContentScrollView>
     );
 }
@@ -33,30 +36,35 @@ const CustomDrawer = (props) => {
 const styles = StyleSheet.create({
     drawerContent: {
         backgroundColor: '#2B1F5C',
+        justifyContent: "space-between",
+        height: "100%"
     },
-
-    viewUser: {
+    container: {
         flex: 1,
+        flexGrow: 1,
+    },
+    viewUser: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 10, // Usando paddingVertical para espaçamento vertical
+        paddingVertical: 10,
     },
-
     text: {
         color: '#FFFFFF',
         fontSize: 22,
     },
-
     labelStyle: {
-        color: '#FFFFFF' // Assegura que a cor do label do DrawerItem seja branca
+        color: '#FFFFFF'
     },
-
     separator: {
-        height: 1, // Altura da linha
-        width: '80%', // Largura da linha
-        backgroundColor: '#FFFFFF', // Cor da linha
-        marginVertical: 8, // Espaço acima e abaixo da linha
-    }
+        height: 1,
+        width: '80%',
+        backgroundColor: '#FFFFFF',
+        marginVertical: 8,
+    },
+    bottomView: {
+        justifyContent: 'flex-end',
+        paddingBottom: 20,
+    },
 });
 
 export default CustomDrawer;

@@ -1,25 +1,44 @@
 import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, StyleSheet } from 'react-native';
-import Home from "../views/Home";
+import HomeScreen from '../views/HomeScreen';
 import CustomDrawer from "../components/CustomDrawer";
-import ModificarPesquisa from './modificarPesquisa';
-import DetailsScreen from './DetailsScreen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 const DrawerNavigator = createDrawerNavigator();
 
 const Drawer = () => {
     return (
         <View style={styles.container}>
-            <DrawerNavigator.Navigator screenOptions={{
-                drawerActiveTintColor: '#fff', // Cor do texto quando o item está ativo
-                drawerInactiveTintColor: '#fff', // Cor do texto quando o item não está ativo
-                drawerLabelStyle: {
-                    color: '#fff' // Define a cor do texto para todos os itens
-                }
-            }} drawerContent={(props) => <CustomDrawer {...props} />}>
-                <DrawerNavigator.Screen name="DetailsScreen" component={DetailsScreen} />
-                {/* Você pode descomentar e ajustar a linha abaixo conforme necessário */}
-                {/* <DrawerNavigator.Screen name="Modificar Pesquisa" component={ModificarPesquisa} /> */}
+            <DrawerNavigator.Navigator
+                screenOptions={{
+                    drawerActiveTintColor: '#fff',
+                    drawerLabelStyle: {
+                        color: '#fff'
+                    },
+                    drawerStyle: {
+                        backgroundColor: '#372775',
+                    },
+                    headerStyle: { backgroundColor: "#2B1D62"},
+                    headerTitle: '',
+                    headerTintColor: 'white'
+                }}
+                drawerContent={(props) => <CustomDrawer {...props} />}
+
+            >
+                <DrawerNavigator.Screen
+                    name="Pesquisas"
+                    component={HomeScreen}
+                    options={{
+                        drawerIcon: ({ focused, color, size }) => (
+                            <MaterialIcons
+                                name="description"
+                                size={size}
+                                color={color}
+                            />
+                        )
+                    }}
+                />
             </DrawerNavigator.Navigator>
         </View>
     );
