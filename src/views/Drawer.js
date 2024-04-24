@@ -1,9 +1,9 @@
 import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, StyleSheet } from 'react-native';
-import HomeScreen from '../views/HomeScreen';
 import CustomDrawer from "../components/CustomDrawer";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Home from './home';
 
 const DrawerNavigator = createDrawerNavigator();
 
@@ -28,7 +28,7 @@ const Drawer = () => {
             >
                 <DrawerNavigator.Screen
                     name="Pesquisas"
-                    component={HomeScreen}
+                    component={Home}
                     options={{
                         drawerIcon: ({ focused, color, size }) => (
                             <MaterialIcons

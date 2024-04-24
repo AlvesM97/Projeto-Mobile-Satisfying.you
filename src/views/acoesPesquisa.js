@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 
-const Home = () => {
+const AcoesPesquisa = () => {
   // Dados dos eventos
   const eventos = [
     {
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default AcoesPesquisa;

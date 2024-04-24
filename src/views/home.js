@@ -8,8 +8,8 @@ import {
   Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
- 
-const Home = () => {
+
+const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Seção de busca */}
@@ -41,8 +41,8 @@ const Home = () => {
             imagem: require('../imagens/meninas.png'),
           },
         ].map((evento, index) => (
-          <TouchableOpacity key={index} style={styles.card}>
-            <Image source={evento.imagem} style={styles.cardImage} />
+          <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa')}>
+            <Image source={evento.imagem} style={styles.cardImage}/>
             <Text style={styles.cardText}>{evento.nome}</Text>
             <Text style={styles.cardDate}>{evento.data}</Text>
           </TouchableOpacity>

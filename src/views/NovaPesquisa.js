@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
 
-export default function DetailsScreen() {
+export default function NovaPesquisa() {
 
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');

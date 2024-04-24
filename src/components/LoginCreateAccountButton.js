@@ -1,11 +1,12 @@
-import {Text, StyleSheet, TextInput, View, Button, TouchableOpacity} from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
+export default LoginCreateAccountButton = () => {
+    const navigation = useNavigation();
 
-
-export default LoginCreateAccountButton= () => {
-    return(
+    return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.loginButton}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Nova Conta')}>
                 <Text style={styles.textButton}>
                     Criar minha conta
                 </Text>
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: 0
     },
-    
+
     loginButton: {
         backgroundColor: '#1E90FF',
         paddingTop: 5,

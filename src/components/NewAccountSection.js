@@ -24,7 +24,7 @@ const NewAccountSection = () => {
       setErroEmail('');
     }
   };
- 
+
   return (
     <ScrollView>
       <View style={styles.container}>
