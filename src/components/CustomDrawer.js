@@ -51,9 +51,11 @@ const styles = StyleSheet.create({
     text: {
         color: '#FFFFFF',
         fontSize: 22,
+        fontFamily: 'AveriaLibre-Regular'
     },
     labelStyle: {
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+        fontFamily: 'AveriaLibre-Regular'
     },
     separator: {
         height: 1,

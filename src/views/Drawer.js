@@ -14,12 +14,13 @@ const Drawer = () => {
                 screenOptions={{
                     drawerActiveTintColor: '#fff',
                     drawerLabelStyle: {
-                        color: '#fff'
+                        color: '#fff',
+                        fontFamily: 'AveriaLibre-Regular'
                     },
                     drawerStyle: {
-                        backgroundColor: '#372775',
+                        backgroundColor: '#372775'
                     },
-                    headerStyle: { backgroundColor: "#2B1D62"},
+                    headerStyle: { backgroundColor: "#2B1D62" },
                     headerTitle: '',
                     headerTintColor: 'white'
                 }}
@@ -30,7 +31,7 @@ const Drawer = () => {
                     name="Pesquisas"
                     component={Home}
                     options={{
-                        drawerIcon: ({ focused, color, size }) => (
+                        drawerIcon: ({ color, size }) => (
                             <MaterialIcons
                                 name="description"
                                 size={size}

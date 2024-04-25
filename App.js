@@ -22,7 +22,7 @@ export default function App() {
         initialRouteName="Login"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#2B1D62',
+            backgroundColor: '#2B1D62'
           },
           headerTintColor: '#573FBA',
           headerTitleStyle: {
@@ -55,16 +55,16 @@ export default function App() {
           component={AcoesPesquisa}
           options={{
             headerTitle: 'Carnaval',
-            headerTitleStyle: { color: "white" }
+            headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' }
           }}
         />
         <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
-        <Stack.Screen name="Nova Conta" component={NovaConta} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="Nova Pesquisa" component={NovaPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="Modificar Pesquisa" component={ModificarPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="Coleta" component={Coleta} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="Relatorio" component={Relatorio} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} options={{ headerTitleStyle: { color: "white" }, headerTitle: 'Recuperação de Senha' }} />
+        <Stack.Screen name="Nova Conta" component={NovaConta} options={{ headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
+        <Stack.Screen name="Nova Pesquisa" component={NovaPesquisa} options={{ headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
+        <Stack.Screen name="Modificar Pesquisa" component={ModificarPesquisa} options={{ headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
+        <Stack.Screen name="Coleta" component={Coleta} options={{ headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
+        <Stack.Screen name="Relatorio" component={Relatorio} options={{title:'Relatório', headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
+        <Stack.Screen name="Recuperar Senha" component={RecuperarSenha} options={{ title: 'Recuperação de Senha', headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' } }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

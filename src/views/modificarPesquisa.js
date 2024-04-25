@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 20,
     fontSize: 18,
+    fontFamily: 'AveriaLibre-Regular'
   },
   input: {
     fontSize: 15,
@@ -98,6 +99,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     paddingStart: 10,
     padding: 2,
+    fontFamily: 'AveriaLibre-Regular'
   },
   dateInputContainer: {
     paddingEnd: 5,
@@ -140,6 +142,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'white',
+    fontFamily: 'AveriaLibre-Regular'
   },
   background: {
     backgroundColor: '#37BD6D',
@@ -150,7 +153,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#FFFFFF',
-    fontSize: 18
+    fontSize: 18,
+    fontFamily: 'AveriaLibre-Regular'
   }
 });
 

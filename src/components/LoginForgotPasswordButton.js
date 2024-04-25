@@ -9,7 +9,7 @@ export default LoginForgotPasswordButton = () => {
     const navigation = useNavigation();
 
     const handleRecuperarSenha = () => {
-        navigation.navigate('RecuperarSenha');
+        navigation.navigate('Recuperar Senha');
     };
 
     return(
