@@ -4,9 +4,10 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 const Botao = (props) => {
 
     const texto = props.texto
+    const action = props.action
 
     return (
-        <TouchableOpacity style={estilos.fundo}>
+        <TouchableOpacity style={estilos.fundo} onPress={() => action}>
             <Text style={estilos.texto}>{texto}</Text>
         </TouchableOpacity>
     )

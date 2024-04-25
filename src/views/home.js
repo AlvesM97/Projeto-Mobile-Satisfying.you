@@ -42,7 +42,7 @@ const Home = ({ navigation }) => {
           },
         ].map((evento, index) => (
           <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa')}>
-            <Image source={evento.imagem} style={styles.cardImage}/>
+            <Image source={evento.imagem} style={styles.cardImage} />
             <Text style={styles.cardText}>{evento.nome}</Text>
             <Text style={styles.cardDate}>{evento.data}</Text>
           </TouchableOpacity>
@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
       </View>
 
       {/* Botão 'Nova Pesquisa' */}
-      <TouchableOpacity style={styles.newSearchButton}>
+      <TouchableOpacity style={styles.newSearchButton} onPress={() => navigation.navigate('Nova Pesquisa')}>
         <Text style={styles.newSearchButtonText}>Nova Pesquisa</Text>
       </TouchableOpacity>
     </View>

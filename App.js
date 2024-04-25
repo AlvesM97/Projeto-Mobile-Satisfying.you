@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import DetailsScreen from './src/views/NovaPesquisa';
+import NovaPesquisa from './src/views/NovaPesquisa';
 import Login from './src/views/Login'
 import Drawer from './src/views/Drawer'
 import ModificarPesquisa from './src/views/ModificarPesquisa';
@@ -56,8 +56,8 @@ export default function App() {
           }}
         />
         <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />
-        <Stack.Screen name="Nova Conta" component={NovaConta} />
-        <Stack.Screen name="NovaPesquisa" component={DetailsScreen} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="Nova Conta" component={NovaConta} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="Nova Pesquisa" component={NovaPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
         <Stack.Screen name="Modificar Pesquisa" component={ModificarPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
       </Stack.Navigator>
     </NavigationContainer>

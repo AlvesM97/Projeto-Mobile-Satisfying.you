@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const ModificarPesquisa = () => {
+const ModificarPesquisa = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -17,6 +17,11 @@ const ModificarPesquisa = () => {
 
   const toggleDatePicker = () => {
     setShowDatePicker(!showDatePicker);
+  };
+
+  const handleBackViews = () => {
+    navigation.goBack();
+    navigation.goBack();
   };
 
   return (
@@ -58,9 +63,11 @@ const ModificarPesquisa = () => {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Botao texto="SALVAR" onPress={() => console.log('Salvar pressionado')} />
+          <TouchableOpacity style={styles.background} onPress={() => handleBackViews()}>
+            <Text style={styles.text}>Salvar</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => console.log('Apagar pressionado')}>
+        <TouchableOpacity style={styles.deleteButton}>
           <Icon name="delete" size={24} color="white" style={styles.deleteIcon} />
           <Text style={styles.deleteText}>Apagar</Text>
         </TouchableOpacity>
@@ -134,6 +141,17 @@ const styles = StyleSheet.create({
   deleteText: {
     color: 'white',
   },
+  background: {
+    backgroundColor: '#37BD6D',
+    width: 502,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#FFFFFF',
+    fontSize: 18
+  }
 });
 
 export default ModificarPesquisa;

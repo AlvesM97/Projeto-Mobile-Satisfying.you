@@ -30,14 +30,14 @@ export default function NovaPesquisa() {
 
   const validateData = () => {
     if (!nome.trim()) {
-      setNomeError('Nome não pode ser vazio.');
+      setNomeError('Preencha no nome da pesquisa.');
       return false;
     } else {
       setNomeError('');
     }
 
     if (!data) {
-      setDataError('Data não pode ser vazia.');
+      setDataError('Preencha a data.');
       return false;
     } else {
       setDataError('');
@@ -48,8 +48,7 @@ export default function NovaPesquisa() {
 
   const handleSave = () => {
     if (validateData()) {
-      navigation.navigate('Modificar Pesquisa');
-      Alert.alert('Validação', 'Dados válidos!');
+      navigation.goBack();
     }
   };
 
@@ -94,7 +93,11 @@ export default function NovaPesquisa() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <Botao texto="CADASTRAR" onPress={() => handleSave()} />
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={styles.background} onPress={() => handleSave()}>
+              <Text style={styles.text}>CADASTRAR</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -154,4 +157,15 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 14
   },
+  background: {
+    backgroundColor: '#37BD6D',
+    width: 502,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#FFFFFF',
+    fontSize: 18
+  }
 });
