@@ -64,7 +64,7 @@ export default function App() {
         <Stack.Screen name="Modificar Pesquisa" component={ModificarPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
         <Stack.Screen name="Coleta" component={Coleta} options={{ headerTitleStyle: { color: "white" } }} />
         <Stack.Screen name="Relatorio" component={Relatorio} options={{ headerTitleStyle: { color: "white" } }} />
-        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} options={{ headerTitleStyle: { color: "white" }, headerTitle: 'Recuperação de Senha' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
