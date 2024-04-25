@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const Coleta = () => {
+const Coleta = ({navigation}) => {
 
   const [visible, setVisible] = useState(false);
 
@@ -11,8 +11,12 @@ const Coleta = () => {
     if (visible) {
   
       const timer = setTimeout(() => {
+        navigation.goBack();
         setVisible(false);
       }, 3000);
+
+      
+      
 
       return () => clearTimeout(timer);
     }

@@ -14,12 +14,7 @@ const RecuperarSenha = () => {
 
   return (
     <View>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => console.log('Botão de volta pressionado')} style={styles.iconBack}>
-          <Icon name='arrow-back' size={40} color="#573FBA" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Recuperação de senha</Text>
-      </View>
+      
 
       <View style={styles.container}>
         <Text style={styles.label}>E-mail</Text>

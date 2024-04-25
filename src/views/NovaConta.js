@@ -1,52 +1,56 @@
-//IMPORTAÇÃO
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 import NewAccountSection from '../components/NewAccountSection';
-import CreateButton from '../components/CreateButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
-//DEFINIÇÃO
-const NovaConta = () => {
+const NovaConta = ({navigation}) => {
+  const handleCadastro = () => {
+    navigation.navigate('Login');
+  };
+
   return (
     <View style={styles.viewPrincipal}>
-
-      <View style={styles.viewInputs}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <NewAccountSection />
-        <CreateButton />
-      </View>
+        <TouchableOpacity style={styles.createButton} onPress={handleCadastro}>
+          <Text style={styles.textButton}>CADASTRAR</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#2B1D62',
-    paddingVertical: 20,
-    paddingHorizontal: 15,
-    height: 75,
-  },
-  iconBack: {
-    marginEnd: 15,
-    backgroundColor: '#2B1D62',
-    color: '2B1D62',
-  },
-  title: {
-    color: 'white',
-    fontSize: 26,
-    marginLeft: 10,
-    fontFamily: 'AveriaLibre-Regular',
-  },
   viewPrincipal: {
     backgroundColor: '#372775',
     flex: 1,
   },
-  viewInputs: {
-    flex: 1,
+  scrollContent: {
     justifyContent: 'center',
-    paddingBottom: 5,
+    paddingBottom: 20,
+    paddingHorizontal: 5,
+  },
+  createButton: {
+    backgroundColor: '#37BD6D',
+    paddingVertical: 4,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '70%',
+    height: 30,
+  },
+  textButton: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 17,
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
-//EXPORTAÇÃO
 export default NovaConta;

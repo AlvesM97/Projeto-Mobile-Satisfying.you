@@ -22,7 +22,9 @@ const AcoesPesquisa = ({ navigation }) => {
     if (index === 0) {
       navigation.navigate('Modificar Pesquisa');
     } else if (index === 1) {
-      // navigation.navigate('Coleta');
+       navigation.navigate('Coleta');
+    } else if (index === 2) {
+        navigation.navigate('Relatorio');
     } else {
       return null;
     }

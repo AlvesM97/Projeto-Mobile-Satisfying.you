@@ -6,20 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const Relatorio = () => {
   return (
     <View style={styles.viewPrincipal}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => console.log('Botão de volta pressionado')}
-          style={styles.iconBack}>
-          <Icon name="arrow-back" size={40} color="#573FBA" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Relatório</Text>
-      </View>
+      
       <View style={styles.viewSecundaria}>
-        <Image
-          source={require('../../assets/imgs/relatorioGraph.png')}
+      <Image
+          source={require('../imagens/relatorioGraph.png')}
           style={styles.chart}></Image>
         <Image
-          source={require('../../assets/imgs/legendaRelatorio.png')}
+          source={require('../imagens/legendaRelatorio.png')}
           style={styles.legend}></Image>
       </View>
     </View>
