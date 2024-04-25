@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Botao from '../components/Botao';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ModificarPesquisa = ({ navigation }) => {
