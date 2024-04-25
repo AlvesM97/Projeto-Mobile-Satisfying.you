@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
-const AcoesPesquisa = () => {
+const AcoesPesquisa = ({ navigation }) => {
   // Dados dos eventos
   const eventos = [
     {
@@ -18,15 +18,24 @@ const AcoesPesquisa = () => {
     },
   ];
 
+  const handleIndex = (index) => {
+    if (index === 0) {
+      navigation.navigate('Modificar Pesquisa');
+    } else if (index === 1) {
+      // navigation.navigate('Coleta');
+    } else {
+      return null;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.gridContainer}>
         <View style={styles.cardContainer}>
           {eventos.map((evento, index) => (
-            <TouchableOpacity key={index} style={styles.card}>
+            <TouchableOpacity key={index} style={styles.card} onPress={() => handleIndex(index)}>
               <Image source={evento.imagem} style={styles.cardImage} />
               <Text style={styles.cardText}>{evento.nome}</Text>
-              <Text style={styles.cardDate}>{evento.data}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -71,11 +80,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: '#ffffff',
-  },
-  cardDate: {
-    fontSize: 14,
-    color: '#888',
-    marginTop: 5,
   },
 });
 
