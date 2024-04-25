@@ -55,7 +55,7 @@ export default function App() {
           component={AcoesPesquisa}
           options={{
             headerTitle: 'Carnaval',
-            headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' }
+            headerTitleStyle: { color: "white", fontFamily: 'AveriaLibre-Regular' },
           }}
         />
         <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }} />

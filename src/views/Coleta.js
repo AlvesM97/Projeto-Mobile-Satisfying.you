@@ -15,9 +15,6 @@ const Coleta = ({navigation}) => {
         setVisible(false);
       }, 3000);
 
-      
-      
-
       return () => clearTimeout(timer);
     }
   }, [visible]);
