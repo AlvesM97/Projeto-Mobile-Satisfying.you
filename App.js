@@ -10,6 +10,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Home from './src/views/home';
 import AcoesPesquisa from './src/views/AcoesPesquisa';
 import NovaConta from './src/views/NovaConta';
+import Coleta from './src/views/Coleta';
+import Relatorio from './src/views/Relatorio';
+import RecuperarSenha from './src/views/RecuperarSenha';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -59,6 +62,9 @@ export default function App() {
         <Stack.Screen name="Nova Conta" component={NovaConta} options={{ headerTitleStyle: { color: "white" } }} />
         <Stack.Screen name="Nova Pesquisa" component={NovaPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
         <Stack.Screen name="Modificar Pesquisa" component={ModificarPesquisa} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="Coleta" component={Coleta} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="Relatorio" component={Relatorio} options={{ headerTitleStyle: { color: "white" } }} />
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} options={{ headerTitleStyle: { color: "white" } }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

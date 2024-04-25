@@ -1,11 +1,20 @@
 import {Text, StyleSheet, TextInput, View, Button, TouchableOpacity} from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 
 
 export default LoginForgotPasswordButton = () => {
+
+    
+    const navigation = useNavigation();
+
+    const handleRecuperarSenha = () => {
+        navigation.navigate('RecuperarSenha');
+    };
+
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={styles.loginButton}>
+            <TouchableOpacity style={styles.loginButton} onPress={handleRecuperarSenha}>
                 <Text style={styles.textButton}>
                     Esqueci minha senha
                 </Text>
@@ -28,6 +37,6 @@ const styles = StyleSheet.create({
     textButton: {
         textAlign: 'center',
         color: '#fff',
-        fontSize: 17
-    }
+        fontSize: 17,
+    },
 })

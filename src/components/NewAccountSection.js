@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet, TextInput, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const NewAccountSection = () => {
   const [novoEmail, setNovoEmail] = useState('');
@@ -26,44 +25,42 @@ const NewAccountSection = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.userCredentialsLabels}>E-mail</Text>
-        <TextInput
-          placeholder="Exemplo@gmail.com"
-          style={styles.userCredentialsInput}
-          value={novoEmail}
-          onChangeText={text => {
-            setNovoEmail(text);
-            validarEmail(text);
-          }}
-        />
+    <View style={styles.container}>
+      <Text style={styles.userCredentialsLabels}>E-mail</Text>
+      <TextInput
+        placeholder="Exemplo@gmail.com"
+        style={styles.userCredentialsInput}
+        value={novoEmail}
+        onChangeText={text => {
+          setNovoEmail(text);
+          validarEmail(text);
+        }}
+      />
 
-        {!!erroEmail && <Text style={styles.mensagemErro}>{erroEmail}</Text>}
+      {!!erroEmail && <Text style={styles.mensagemErro}>{erroEmail}</Text>}
 
-        <Text style={styles.userCredentialsLabels}>Senha</Text>
-        <TextInput
-          placeholder="****"
-          style={styles.userCredentialsInput}
-          value={novaSenha}
-          onChangeText={text => setNovaSenha(text)}
-          secureTextEntry={true}
-          onBlur={checarSenhas}
-        />
+      <Text style={styles.userCredentialsLabels}>Senha</Text>
+      <TextInput
+        placeholder=""
+        style={styles.userCredentialsInput}
+        value={novaSenha}
+        onChangeText={text => setNovaSenha(text)}
+        secureTextEntry={true}
+        onBlur={checarSenhas}
+      />
 
-        <Text style={styles.userCredentialsLabels}>Repetir senha</Text>
-        <TextInput
-          placeholder="****"
-          style={styles.userCredentialsInput}
-          value={repetSenha}
-          onChangeText={text => setRepetSenha(text)}
-          secureTextEntry={true}
-          onBlur={checarSenhas}
-        />
+      <Text style={styles.userCredentialsLabels}>Repetir senha</Text>
+      <TextInput
+        placeholder=""
+        style={styles.userCredentialsInput}
+        value={repetSenha}
+        onChangeText={text => setRepetSenha(text)}
+        secureTextEntry={true}
+        onBlur={checarSenhas}
+      />
 
-        {!!erroSenha && <Text style={styles.mensagemErro}>{erroSenha}</Text>}
-      </View>
-    </ScrollView>
+      {!!erroSenha && <Text style={styles.mensagemErro}>{erroSenha}</Text>}
+    </View>
   );
 };
 
@@ -71,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 5,
     paddingBottom: 20,
-    paddingHorizontal: 150,
+    paddingHorizontal: 117,
     backgroundColor: '#372775',
   },
 
@@ -96,8 +93,7 @@ const styles = StyleSheet.create({
 
   mensagemErro: {
     color: '#FD7979',
-    marginTop: 20,
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'AveriaLibre-Regular',
   },
 });
