@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const ModificarPesquisa = ({ navigation }) => {
+const ModificarPesquisa = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -27,19 +35,16 @@ const ModificarPesquisa = ({ navigation }) => {
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.label}>Nome</Text>
-        <TextInput
-          value="Carnaval 2024"
-          style={styles.input}
-        />
+        <TextInput value="Carnaval 2024" style={styles.input} />
 
         <Text style={styles.label}>Data</Text>
-        <TouchableOpacity style={styles.dateInputContainer} onPress={toggleDatePicker}>
-          <Text style={styles.input} numberOfLines={1} ellipsizeMode="tail">{selectedDate.toLocaleDateString('pt-BR')}</Text>
-          <Icon
-            name='calendar-month'
-            color='#B0CCDE'
-            size={24}
-          />
+        <TouchableOpacity
+          style={styles.dateInputContainer}
+          onPress={toggleDatePicker}>
+          <Text style={styles.input} numberOfLines={1} ellipsizeMode="tail">
+            {selectedDate.toLocaleDateString('pt-BR')}
+          </Text>
+          <Icon name="calendar-month" color="#B0CCDE" size={24} />
         </TouchableOpacity>
         {showDatePicker && (
           <DateTimePicker
@@ -62,19 +67,25 @@ const ModificarPesquisa = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.background} onPress={() => handleBackViews()}>
+          <TouchableOpacity
+            style={styles.background}
+            onPress={() => handleBackViews()}>
             <Text style={styles.text}>Salvar</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.deleteButton}>
-          <Icon name="delete" size={24} color="white" style={styles.deleteIcon} />
+          <Icon
+            name="delete"
+            size={24}
+            color="white"
+            style={styles.deleteIcon}
+          />
           <Text style={styles.deleteText}>Apagar</Text>
         </TouchableOpacity>
       </View>
-
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -87,18 +98,18 @@ const styles = StyleSheet.create({
     color: 'white',
     marginTop: 20,
     fontSize: 18,
-    fontFamily: 'AveriaLibre-Regular'
+    fontFamily: 'AveriaLibre-Regular',
   },
   input: {
     fontSize: 15,
     backgroundColor: 'white',
     height: 30,
     flex: 1,
-    color: "#3F92C5",
+    color: '#3F92C5',
     textAlignVertical: 'center',
     paddingStart: 10,
     padding: 2,
-    fontFamily: 'AveriaLibre-Regular'
+    fontFamily: 'AveriaLibre-Regular',
   },
   dateInputContainer: {
     paddingEnd: 5,
@@ -106,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   calendarIcon: {
     marginLeft: 10,
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    width: "50%"
+    width: '50%',
   },
   image: {
     height: 70,
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     color: 'white',
-    fontFamily: 'AveriaLibre-Regular'
+    fontFamily: 'AveriaLibre-Regular',
   },
   background: {
     backgroundColor: '#37BD6D',
@@ -153,8 +164,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#FFFFFF',
     fontSize: 18,
-    fontFamily: 'AveriaLibre-Regular'
-  }
+    fontFamily: 'AveriaLibre-Regular',
+  },
 });
 
 export default ModificarPesquisa;
