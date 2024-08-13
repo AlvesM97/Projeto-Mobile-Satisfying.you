@@ -1,6 +1,4 @@
 import React from 'react';
-
-
 import {
   View,
   ScrollView,
@@ -11,15 +9,10 @@ import {
 import NewAccountSection from '../components/NewAccountSection';
 
 const NovaConta = ({navigation}) => {
-  const handleCadastro = () => {
-    navigation.navigate('Login');
-  };
-
   return (
     <View style={styles.viewPrincipal}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <NewAccountSection />
-        
       </ScrollView>
     </View>
   );

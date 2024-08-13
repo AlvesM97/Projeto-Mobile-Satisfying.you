@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth_mod } from '../firebase/config';
-import { useNavigation } from '@react-navigation/native';
-
-
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  View,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth_mod} from '../firebase/config';
+import {useNavigation} from '@react-navigation/native';
 
 const NewAccountSection = () => {
   const navigation = useNavigation();
@@ -14,18 +19,46 @@ const NewAccountSection = () => {
   const [erroSenha, setErroSenha] = useState('');
   const [erroEmail, setErroEmail] = useState('');
 
+  const validarEmail = email => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
 
-
+  const mapFirebaseAuthError = errorCode => {
+    switch (errorCode) {
+      case 'auth/email-already-in-use':
+        return 'O e-mail fornecido já está em uso. Por favor, use outro e-mail.';
+      case 'auth/invalid-email':
+        return 'O e-mail fornecido é inválido. Por favor, insira um e-mail válido.';
+      case 'auth/operation-not-allowed':
+        return 'O cadastro de usuários está desativado temporariamente. Tente novamente mais tarde.';
+      case 'auth/weak-password':
+        return 'A senha é muito fraca. Por favor, use uma senha mais forte.';
+      default:
+        return 'Ocorreu um erro ao cadastrar. Tente novamente mais tarde.';
+    }
+  };
 
   const cadastrarUsuario = () => {
+    if (!validarEmail(novoEmail)) {
+      Alert.alert('Erro ao Cadastrar', 'Por favor, insira um e-mail válido.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+
     createUserWithEmailAndPassword(auth_mod, novoEmail, novaSenha)
-      .then((userCredential) => {
-        console.log("Usuário criado com sucesso: " + userCredential);
-    
-        navigation.navigate('Login'); // Navega para a tela 'Home' após o sucesso
+      .then(userCredential => {
+        Alert.alert('Cadastro Realizado', 'Usuário criado com sucesso!', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Login'),
+          },
+        ]);
       })
-      .catch((error) => {
-        console.log("Erro ao criar usuário: " + error);
+      .catch(error => {
+        const errorMessage = mapFirebaseAuthError(error.code);
+        Alert.alert('Erro ao Cadastrar', errorMessage, [{text: 'OK'}]);
       });
   };
 
@@ -34,14 +67,6 @@ const NewAccountSection = () => {
       setErroSenha('O campo repetir senha difere da senha');
     } else {
       setErroSenha('');
-    }
-  };
-
-  const validarEmail = email => {
-    if (!email.includes('@')) {
-      setErroEmail('E-mail inválido');
-    } else {
-      setErroEmail('');
     }
   };
 
@@ -80,11 +105,11 @@ const NewAccountSection = () => {
         onBlur={checarSenhas}
       />
 
+      {!!erroSenha && <Text style={styles.mensagemErro}>{erroSenha}</Text>}
+
       <TouchableOpacity style={styles.createButton} onPress={cadastrarUsuario}>
         <Text style={styles.textButton}>CADASTRAR</Text>
       </TouchableOpacity>
-
-      {!!erroSenha && <Text style={styles.mensagemErro}>{erroSenha}</Text>}
     </View>
   );
 };
@@ -92,7 +117,7 @@ const NewAccountSection = () => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 5,
-    paddingBottom: 20,
+    paddingBottom: 70,
     paddingHorizontal: 117,
     backgroundColor: '#372775',
   },
@@ -126,10 +151,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#37BD6D',
     paddingVertical: 4,
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 15,
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '70%',
+    width: '100%',
     height: 30,
   },
   textButton: {
