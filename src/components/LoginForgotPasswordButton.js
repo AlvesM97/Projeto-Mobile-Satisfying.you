@@ -12,6 +12,8 @@ export default LoginForgotPasswordButton = () => {
         navigation.navigate('Recuperar Senha');
     };
 
+    
+
     return(
         <View style={styles.container}>
             <TouchableOpacity style={styles.loginButton} onPress={handleRecuperarSenha}>

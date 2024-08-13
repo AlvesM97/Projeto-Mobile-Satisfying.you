@@ -1,4 +1,6 @@
 import React from 'react';
+
+
 import {
   View,
   ScrollView,
@@ -17,9 +19,7 @@ const NovaConta = ({navigation}) => {
     <View style={styles.viewPrincipal}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <NewAccountSection />
-        <TouchableOpacity style={styles.createButton} onPress={handleCadastro}>
-          <Text style={styles.textButton}>CADASTRAR</Text>
-        </TouchableOpacity>
+        
       </ScrollView>
     </View>
   );

@@ -1,12 +1,33 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, TextInput, View} from 'react-native';
+import {Text, StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth_mod } from '../firebase/config';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 const NewAccountSection = () => {
+  const navigation = useNavigation();
   const [novoEmail, setNovoEmail] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [repetSenha, setRepetSenha] = useState('');
   const [erroSenha, setErroSenha] = useState('');
   const [erroEmail, setErroEmail] = useState('');
+
+
+
+
+  const cadastrarUsuario = () => {
+    createUserWithEmailAndPassword(auth_mod, novoEmail, novaSenha)
+      .then((userCredential) => {
+        console.log("Usuário criado com sucesso: " + userCredential);
+    
+        navigation.navigate('Login'); // Navega para a tela 'Home' após o sucesso
+      })
+      .catch((error) => {
+        console.log("Erro ao criar usuário: " + error);
+      });
+  };
 
   const checarSenhas = () => {
     if (novaSenha !== repetSenha) {
@@ -59,6 +80,10 @@ const NewAccountSection = () => {
         onBlur={checarSenhas}
       />
 
+      <TouchableOpacity style={styles.createButton} onPress={cadastrarUsuario}>
+        <Text style={styles.textButton}>CADASTRAR</Text>
+      </TouchableOpacity>
+
       {!!erroSenha && <Text style={styles.mensagemErro}>{erroSenha}</Text>}
     </View>
   );
@@ -94,6 +119,23 @@ const styles = StyleSheet.create({
   mensagemErro: {
     color: '#FD7979',
     fontSize: 14,
+    fontFamily: 'AveriaLibre-Regular',
+  },
+
+  createButton: {
+    backgroundColor: '#37BD6D',
+    paddingVertical: 4,
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '70%',
+    height: 30,
+  },
+  textButton: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 17,
     fontFamily: 'AveriaLibre-Regular',
   },
 });

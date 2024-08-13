@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth_mod } from "../firebase/config";
 
 const LoginSection = () => {
     const [email, setEmail] = useState('');
@@ -15,6 +17,18 @@ const LoginSection = () => {
             navigation.navigate('Drawer');
         }
     };
+
+    const autenticar = () => {
+        signInWithEmailAndPassword(auth_mod, email, senha)
+        .then((userLogged) => {
+            console.log("Usuário authenticado com sucesso: " + userLogged)
+            navigation.navigate('Home');
+        })
+        .catch((error) => {
+            console.log("Falha ao autenticar o usuário: " + error)
+        })
+
+    }
 
     return (
         <View style={styles.container}>
@@ -38,7 +52,7 @@ const LoginSection = () => {
             {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
             <View style={styles.containerButton}>
-                <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                <TouchableOpacity style={styles.loginButton} onPress={autenticar}>
                     <Text style={styles.textButton}>
                         Entrar
                     </Text>

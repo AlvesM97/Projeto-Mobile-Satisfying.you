@@ -26,11 +26,10 @@ const Coleta = ({navigation}) => {
   return (
 
     <View style={styles.container}>
-      
+
       <Text style={styles.tituloText}>O que você achou do Carnaval 2024?</Text>
       
       <View style={styles.container2}>   
-
         <TouchableOpacity onPress={()=> handleButtonPress()}>
         <Icon style={styles.icons} name="mood-bad" size={100} color="#D71616"/>
         </TouchableOpacity>   

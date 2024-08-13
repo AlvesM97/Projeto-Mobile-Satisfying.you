@@ -1,36 +1,47 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Botao from '../components/Botao';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth_mod } from "../firebase/config";
 
 const RecuperarSenha = () => {
-  const [email, setEmail] = useState("jurandir.pereira@hotmail.com");
+  const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(true);
+  const navigation = useNavigation(); // Obtém o objeto de navegação
 
   const validarEmail = (text) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
     setEmailValid(regex.test(text));
   };
 
+  const recoverPassword = () => {
+    sendPasswordResetEmail(auth_mod, email)
+      .then(() => {
+        console.log('E-mail de redefinição enviado com sucesso.');
+        navigation.navigate('Login'); // Navega para a tela de Login
+      })
+      .catch((error) => {
+        console.log('Falha ao enviar e-mail de redefinição.') + error;
+      });
+  }
+
   return (
-    <View>
-      
+    <View style={styles.container}>
+      <Text style={styles.label}>E-mail</Text>
+      <TextInput
+        value={email}
+        onChangeText={(text) => {
+          setEmail(text);
+          validarEmail(text);
+        }}
+        style={[styles.input, !emailValid && styles.invalidInput]}
+      />
+      {!emailValid && <Text style={styles.labelWarning}>E-mail parece ser inválido</Text>}
 
-      <View style={styles.container}>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput
-          value={email}
-          onChangeText={(text) => {
-            setEmail(text);
-            validarEmail(text);
-          }}
-          style={[styles.input, !emailValid && styles.invalidInput]}
-        />
-        {!emailValid && <Text style={styles.labelWarning}>E-mail parece ser inválido</Text>}
-
-        <View style={styles.buttonsContainer}>
-          <Botao texto="RECUPERAR" onPress={() => console.log('Salvar pressionado')} />
-        </View>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.fundo} onPress={recoverPassword}>
+          <Text style={styles.texto}>Recuperar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -88,6 +99,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
+
+  fundo: {
+    backgroundColor: '#37BD6D',
+    width: 502,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  texto: {
+    color: '#FFFFFF',
+    fontSize: 18
+  }
 });
 
 export default RecuperarSenha;
