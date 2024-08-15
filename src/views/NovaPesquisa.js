@@ -5,6 +5,23 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
 
+import {app} from '../firebase/config';
+
+import { initializeApp } from 'firebase/app';
+import { getFirestore, Timestamp, addDoc, collection, FieldValue, initializeFirestore } from 'firebase/firestore';
+import serviceAccount from './chaveprivada.json';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCLUqnhe7bkEfePUkaun1uFFR7ME5qqWIo",
+  authDomain: "projeto-mobile-2e230.firebaseapp.com",
+  projectId: "projeto-mobile-2e230",
+  storageBucket: "projeto-mobile-2e230.appspot.com",
+  messagingSenderId: "942320818646",
+  appId: "1:942320818646:web:cc0bcc2d69eb21833c2c77"
+};
+
+
+
 export default function NovaPesquisa() {
 
   const [nome, setNome] = useState('');
@@ -14,6 +31,22 @@ export default function NovaPesquisa() {
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
   const navigation = useNavigation();
+
+  const db = initializeFirestore(app, {experimentalForceLongPolling: true});
+  const pesquisaCollection = collection(db, "pesquisas")
+
+  const addPesquisa = () => {
+    const docPesquisa = {
+      nome: nome,
+      data: data
+    }
+
+    addDoc(pesquisaCollection, docPesquisa).then((docRef) => {
+      console.log("Novo documento criado com sucesso:" + docRef.id)
+    }).catch ((erro) => {
+      console.log("Erro" + erro)
+    })
+  };
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -94,7 +127,7 @@ export default function NovaPesquisa() {
 
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.background} onPress={() => handleSave()}>
+            <TouchableOpacity style={styles.background} onPress={addPesquisa}>
               <Text style={styles.text}>CADASTRAR</Text>
             </TouchableOpacity>
           </View>

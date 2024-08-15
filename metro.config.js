@@ -8,4 +8,9 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  */
 const config = {};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = mergeConfig(getDefaultConfig(__dirname), {
+    ...config,
+    resolver: {
+        sourceExts: ['jsx', 'js', 'ts', 'tsx', 'cjs'] // Corrigido 'sourceExst' para 'sourceExts'
+    }
+});
