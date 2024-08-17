@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
-const AcoesPesquisa = ({navigation}) => {
-  // Dados dos eventos
+const AcoesPesquisa = ({ route, navigation }) => {
+  const { evento } = route.params;
+  
   const eventos = [
     {
       nome: 'Modificar',
@@ -19,8 +20,9 @@ const AcoesPesquisa = ({navigation}) => {
   ];
 
   const handleIndex = index => {
+
     if (index === 0) {
-      navigation.navigate('Modificar Pesquisa');
+      navigation.navigate('Modificar Pesquisa', { evento: evento });
     } else if (index === 1) {
       navigation.navigate('Coleta');
     } else if (index === 2) {

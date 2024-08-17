@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,10 +10,19 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { initializeFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { app } from '../firebase/config'
 
-const ModificarPesquisa = ({navigation}) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const ModificarPesquisa = ({ route, navigation }) => {
+  const { evento } = route.params;
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const [day, month, year] = evento.dataPesquisa.split('/');
+    return new Date(year, month - 1, day);
+  });
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [nome, setNome] = useState(evento.nome);
+
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true })
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -26,16 +35,46 @@ const ModificarPesquisa = ({navigation}) => {
     setShowDatePicker(!showDatePicker);
   };
 
-  const handleBackViews = () => {
-    navigation.goBack();
-    navigation.goBack();
+  const handlePut = () => {
+    const docRef = doc(db, "pesquisas", evento.id);
+    const docPesquisa = {
+      dataPesquisa: selectedDate.toLocaleDateString('pt-BR'),
+      nome: nome
+    };
+
+    updateDoc(docRef, docPesquisa)
+      .then(() => {
+        console.log("Pesquisa modificada com sucesso.");
+        navigation.goBack();
+        navigation.goBack();
+      })
+      .catch((error) => {
+        console.log("Erro", error);
+      });
+  };
+
+  const handleDelete = () => {
+    const docRef = doc(db, "pesquisas", evento.id);
+    deleteDoc(docRef)
+      .then(() => {
+        console.log("Pesquisa deletada com sucesso.");
+        navigation.goBack();
+        navigation.goBack();
+      })
+      .catch((error) => {
+        console.log("Erro", error);
+      });
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.label}>Nome</Text>
-        <TextInput value="Carnaval 2024" style={styles.input} />
+        <TextInput
+          value={nome}
+          style={styles.input}
+          onChangeText={setNome}
+        />
 
         <Text style={styles.label}>Data</Text>
         <TouchableOpacity
@@ -69,11 +108,11 @@ const ModificarPesquisa = ({navigation}) => {
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             style={styles.background}
-            onPress={() => handleBackViews()}>
+            onPress={() => handlePut()}>
             <Text style={styles.text}>Salvar</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.deleteButton}>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
           <Icon
             name="delete"
             size={24}

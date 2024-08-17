@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { app } from '../firebase/config'
-import { initializeFirestore, collection, query, onSnapshot} from 'firebase/firestore';
+import { initializeFirestore, collection, query, onSnapshot } from 'firebase/firestore';
 import {
   View,
   TextInput,
@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const Home = ({ navigation }) => {
   const [listaPesquisa, setListaPesquisa] = useState([])
 
-  const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true })
 
   const pesquisaCollection = collection(db, "pesquisas")
 
@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
       {/* Container dos cartões em uma única linha */}
       <View style={styles.cardContainer}>
         {listaPesquisa.map((evento, index) => (
-          <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa')}>
+          <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa', { evento: evento })}>
             <Image source={evento.imagem} style={styles.cardImage} />
             <Text style={styles.cardDate}>{evento.nome}</Text>
             <Text style={styles.cardDate}>{evento.dataPesquisa}</Text>
