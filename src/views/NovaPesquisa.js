@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
 import { app } from '../firebase/config'
 import { initializeFirestore, collection, addDoc} from 'firebase/firestore';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 export default function NovaPesquisa() {
 
@@ -15,7 +16,29 @@ export default function NovaPesquisa() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
+  const [urlFoto, setUrlFoto] = useState('')
+  const [foto, setFoto] = useState(null)
   const navigation = useNavigation();
+
+  const capturarImagem = () => {
+    launchImageLibrary({
+      mediaType: 'photo', // Opcional, pode especificar o tipo de mídia
+      includeBase64: false, // Se precisar da imagem em base64, defina como true
+    })
+    .then((result) => {
+      if (result.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (result.errorCode) {
+        console.log("Error: ", result.errorMessage);
+      } else if (result.assets && result.assets.length > 0) {
+        setUrlFoto(result.assets[0].uri);
+        setFoto(result.assets[0]);
+      }
+    })
+    .catch((error) => {
+      console.log("Erro: ", error);
+    });
+  };
 
   const db = initializeFirestore(app, {experimentalForceLongPolling: true})
 
@@ -23,7 +46,7 @@ export default function NovaPesquisa() {
 
   const addPesquisa = () => {
     const docPesquisa = {
-      data: data,
+      dataPesquisa: data,
       nome: nome
     }
 
@@ -111,7 +134,17 @@ export default function NovaPesquisa() {
           />
         </View>
 
+        {urlFoto ? (
+        <Image source={{ uri: urlFoto }} style={{ width: 100, height: 100 }} />
+      ) : null}
+        
+
         <View style={styles.buttonsContainer}>
+        <View style={styles.buttonsContainer}>
+            <TouchableOpacity style={styles.background} onPress={capturarImagem}>
+              <Text style={styles.text}>CAPTURAR IMAGEM</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.background} onPress={addPesquisa}>
               <Text style={styles.text}>CADASTRAR</Text>

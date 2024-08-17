@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { app } from '../firebase/config'
+import { initializeFirestore, collection, query, onSnapshot} from 'firebase/firestore';
 import {
   View,
   TextInput,
@@ -6,10 +8,37 @@ import {
   TouchableOpacity,
   Text,
   Image,
+  FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Home = ({ navigation }) => {
+  const [listaPesquisa, setListaPesquisa] = useState([])
+
+  const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+
+  const pesquisaCollection = collection(db, "pesquisas")
+
+  useEffect(() => {
+    const q = query(pesquisaCollection);
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const pesquisas = [];
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        pesquisas.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+
+      setListaPesquisa(pesquisas);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Seção de busca */}
@@ -24,27 +53,11 @@ const Home = ({ navigation }) => {
 
       {/* Container dos cartões em uma única linha */}
       <View style={styles.cardContainer}>
-        {[
-          {
-            nome: 'SECOMP 2023',
-            data: '10/10/2023',
-            imagem: require('../imagens/secomp.png'),
-          },
-          {
-            nome: 'UBUNTU 2022',
-            data: '05/06/2022',
-            imagem: require('../imagens/ubunto.png'),
-          },
-          {
-            nome: 'MENINAS CPU',
-            data: '01/04/2022',
-            imagem: require('../imagens/meninas.png'),
-          },
-        ].map((evento, index) => (
+        {listaPesquisa.map((evento, index) => (
           <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa')}>
             <Image source={evento.imagem} style={styles.cardImage} />
-            <Text style={styles.cardText}>{evento.nome}</Text>
-            <Text style={styles.cardDate}>{evento.data}</Text>
+            <Text style={styles.cardDate}>{evento.nome}</Text>
+            <Text style={styles.cardDate}>{evento.dataPesquisa}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#5E4DB2',
+    color: '#000000',
     marginTop: 0,
   },
   cardDate: {
