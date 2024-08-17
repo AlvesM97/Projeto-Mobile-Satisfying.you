@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { app } from '../firebase/config'
+import { app } from '../firebase/config';
 import { initializeFirestore, collection, query, onSnapshot } from 'firebase/firestore';
 import {
   View,
@@ -13,11 +13,11 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Home = ({ navigation }) => {
-  const [listaPesquisa, setListaPesquisa] = useState([])
+  const [listaPesquisa, setListaPesquisa] = useState([]);
 
-  const db = initializeFirestore(app, { experimentalForceLongPolling: true })
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true });
 
-  const pesquisaCollection = collection(db, "pesquisas")
+  const pesquisaCollection = collection(db, "pesquisas");
 
   useEffect(() => {
     const q = query(pesquisaCollection);
@@ -29,7 +29,7 @@ const Home = ({ navigation }) => {
         const data = doc.data();
         pesquisas.push({
           id: doc.id,
-          ...doc.data()
+          ...data
         });
       });
 
@@ -39,9 +39,20 @@ const Home = ({ navigation }) => {
     return () => unsubscribe();
   }, []);
 
+  const renderCard = ({ item }) => (
+    <TouchableOpacity
+      key={item.id}
+      style={styles.card}
+      onPress={() => navigation.navigate('AcoesPesquisa', { evento: item })}
+    >
+      <Image source={item.imagem} style={styles.cardImage} />
+      <Text style={styles.cardDate}>{item.nome}</Text>
+      <Text style={styles.cardDate}>{item.dataPesquisa}</Text>
+    </TouchableOpacity>
+  );
+  
   return (
     <View style={styles.container}>
-      {/* Seção de busca */}
       <View style={styles.searchSection}>
         <Icon style={styles.searchIcon} name="search" size={25} color="#000" />
         <TextInput
@@ -50,19 +61,14 @@ const Home = ({ navigation }) => {
           placeholderTextColor="#aaa"
         />
       </View>
-
-      {/* Container dos cartões em uma única linha */}
-      <View style={styles.cardContainer}>
-        {listaPesquisa.map((evento, index) => (
-          <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate('AcoesPesquisa', { evento: evento })}>
-            <Image source={evento.imagem} style={styles.cardImage} />
-            <Text style={styles.cardDate}>{evento.nome}</Text>
-            <Text style={styles.cardDate}>{evento.dataPesquisa}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Botão 'Nova Pesquisa' */}
+      <FlatList
+        data={listaPesquisa}
+        renderItem={renderCard}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.cardContainer}
+      />
       <TouchableOpacity style={styles.newSearchButton} onPress={() => navigation.navigate('Nova Pesquisa')}>
         <Text style={styles.newSearchButtonText}>Nova Pesquisa</Text>
       </TouchableOpacity>
@@ -100,7 +106,6 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   cardContainer: {
-    flexDirection: 'row',
     marginTop: 20,
     paddingBottom: 5,
   },
