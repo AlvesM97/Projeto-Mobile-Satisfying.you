@@ -1,62 +1,63 @@
-//IMPORTAÇÃO
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
- 
-//DEFINIÇÃO
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import PureChart from 'react-native-pure-chart';
+
 const Relatorio = () => {
+  const data = [
+    {label: 'Péssimo', value: 20, color: '#53D8D8'},
+    {label: 'Ruim', value: 20, color: '#EA7288'},
+    {label: 'Neutro', value: 20, color: '#5FCDA4'},
+    {label: 'Bom', value: 20, color: '#6994FE'},
+    {label: 'Excelente', value: 20, color: '#F1CE7E'},
+  ];
+
   return (
-    <View style={styles.viewPrincipal}>
-      
-      <View style={styles.viewSecundaria}>
-      <Image
-          source={require('../imagens/relatorioGraph.png')}
-          style={styles.chart}></Image>
-        <Image
-          source={require('../imagens/legendaRelatorio.png')}
-          style={styles.legend}></Image>
+    <View style={styles.container}>
+      <View style={styles.chartContainer}>
+        <PureChart data={data} type="pie" height={200} />
+        <View style={styles.legendContainer}>
+          {data.reverse().map((item, index) => (
+            <View key={index} style={styles.legendItem}>
+              <View
+                style={[styles.legendColor, {backgroundColor: item.color}]}
+              />
+              <Text style={styles.legendText}>{item.label}</Text>
+            </View>
+          ))}
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#372775',
+  },
+  chartContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2B1D62',
-    paddingVertical: 20,
-    paddingHorizontal: 15,
-    height: 75,
   },
-  iconBack: {
-    marginEnd: 15,
-    backgroundColor: '#2B1D62',
-    color: '2B1D62',
+  legendContainer: {
+    marginLeft: 40,
   },
-  title: {
-    color: 'white',
-    fontSize: 26,
-    marginLeft: 10,
-    fontFamily: 'AveriaLibre-Regular',
-  },
-  viewPrincipal: {
-    backgroundColor: '#372775',
-    flex: 1,
-  },
-  viewSecundaria: {
+  legendItem: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: 10,
+    alignItems: 'center',
+    marginBottom: 10,
   },
-  chart: {
-    width: '50%',
-    height: 250,
-    resizeMode: 'contain',
+  legendColor: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
   },
-  legend: {
-    width: '25%',
-    height: 200,
-    marginTop: 25,
+  legendText: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'AveriaLibre-Regular',
   },
 });
 
