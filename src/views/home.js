@@ -27,6 +27,7 @@ const Home = ({ navigation }) => {
 
       snapshot.forEach((doc) => {
         const data = doc.data();
+        console.log(data.imageUrl)
         pesquisas.push({
           id: doc.id,
           ...data
@@ -45,7 +46,7 @@ const Home = ({ navigation }) => {
       style={styles.card}
       onPress={() => navigation.navigate('AcoesPesquisa', { evento: item })}
     >
-      <Image source={item.imagem} style={styles.cardImage} />
+      <Image source={{uri: item.imageUrl}} style={styles.cardImage} />
       <Text style={styles.cardDate}>{item.nome}</Text>
       <Text style={styles.cardDate}>{item.dataPesquisa}</Text>
     </TouchableOpacity>

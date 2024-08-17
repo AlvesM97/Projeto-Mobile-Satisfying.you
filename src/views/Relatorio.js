@@ -6,7 +6,7 @@ const Relatorio = () => {
   const data = [
     {label: 'Péssimo', value: 20, color: '#53D8D8'},
     {label: 'Ruim', value: 20, color: '#EA7288'},
-    {label: 'Neutro', value: 20, color: '#5FCDA4'},
+    {label: 'Neutro', value: 15, color: '#5FCDA4'},
     {label: 'Bom', value: 20, color: '#6994FE'},
     {label: 'Excelente', value: 20, color: '#F1CE7E'},
   ];

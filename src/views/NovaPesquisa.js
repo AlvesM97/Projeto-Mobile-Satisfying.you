@@ -4,9 +4,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
-import { app } from '../firebase/config'
-import { initializeFirestore, collection, addDoc} from 'firebase/firestore';
+import { app, storage } from '../firebase/config'
+import { initializeFirestore, collection, addDoc } from 'firebase/firestore';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 export default function NovaPesquisa() {
 
@@ -18,14 +19,14 @@ export default function NovaPesquisa() {
   const [dataError, setDataError] = useState('');
   const [imagemUri, setImagemUri] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [transferred, setTransferred] = useState(0);  
+  const [transferred, setTransferred] = useState(0);
   const navigation = useNavigation();
 
   const capturarImagem = () => {
-    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+    launchCamera({ mediaType: 'photo', cameraType: 'back', quality: 1 })
       .then((result) => {
         if (!result.didCancel && !result.errorCode) {
-          setImagemUri(result.assets[0].uri);  
+          setImagemUri(result.assets[0].uri);
           console.log("Deu bom ao capturar imagem: " + JSON.stringify(result));
         }
       })
@@ -34,21 +35,45 @@ export default function NovaPesquisa() {
       });
   }
 
-  const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true })
 
   const pesquisaCollection = collection(db, "pesquisas")
 
-  const addPesquisa = () => {
-    const docPesquisa = {
-      dataPesquisa: data,
-      nome: nome
-    }
+  const addPesquisa = async () => {
 
-    addDoc(pesquisaCollection, docPesquisa).then((docRef) => {
-      console.log("Nova pesquisa criado com sucesso.")
-    }).catch((error) => {
-      console.log("Erro", error)
-    }) 
+    const timestamp = Date.now();
+    const imageName = `${nome}_${timestamp}.jpeg`;
+
+    const imagemRef = ref(storage, imageName)
+
+    const file = await fetch(imagemUri)
+    const blob = await file.blob()
+
+    uploadBytes(imagemRef, blob, { contentType: 'image/jpeg' })
+      .then(() => {
+        console.log("Imagem cadastrada.")
+        getDownloadURL(imagemRef)
+          .then((url) => {
+            
+            const docPesquisa = {
+              dataPesquisa: data,
+              nome: nome,
+              imageUrl: url
+            }
+
+            addDoc(pesquisaCollection, docPesquisa).then((docRef) => {
+              console.log("Nova pesquisa criado com sucesso.")
+            }).catch((error) => {
+                console.log("Erro", error)
+              })
+
+          })
+          .catch((error) => {
+            console.log("Ocorreu um erro", error)
+          })
+      }).catch((error) => {
+        console.log("Ocorreu um erro", error)
+      })
   }
 
   const onChangeDate = (event, selectedDate) => {

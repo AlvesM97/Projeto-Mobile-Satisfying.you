@@ -11,7 +11,9 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { initializeFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { app } from '../firebase/config'
+import { app, storage } from '../firebase/config'
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 const ModificarPesquisa = ({ route, navigation }) => {
   const { evento } = route.params;
@@ -21,8 +23,23 @@ const ModificarPesquisa = ({ route, navigation }) => {
   });
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [nome, setNome] = useState(evento.nome);
+  const [imageUrl, setImageUrl] = useState(evento.imageUrl)
+  const [imagemUri, setImagemUri] = useState(null);
 
   const db = initializeFirestore(app, { experimentalForceLongPolling: true })
+
+  const capturarImagem = () => {
+    launchCamera({ mediaType: 'photo', cameraType: 'back', quality: 1 })
+      .then((result) => {
+        if (!result.didCancel && !result.errorCode) {
+          setImagemUri(result.assets[0].uri);
+          console.log("Deu bom ao capturar imagem: " + JSON.stringify(result));
+        }
+      })
+      .catch((error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error));
+      });
+  }
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -35,22 +52,45 @@ const ModificarPesquisa = ({ route, navigation }) => {
     setShowDatePicker(!showDatePicker);
   };
 
-  const handlePut = () => {
-    const docRef = doc(db, "pesquisas", evento.id);
-    const docPesquisa = {
-      dataPesquisa: selectedDate.toLocaleDateString('pt-BR'),
-      nome: nome
-    };
+  const handlePut = async () => {
 
-    updateDoc(docRef, docPesquisa)
+    const timestamp = Date.now();
+    const imageName = `${nome}_${timestamp}.jpeg`;
+
+    const imagemRef = ref(storage, imageName)
+
+    const file = await fetch(imagemUri)
+    const blob = await file.blob()
+
+    uploadBytes(imagemRef, blob, { contentType: 'image/jpeg' })
       .then(() => {
-        console.log("Pesquisa modificada com sucesso.");
-        navigation.goBack();
-        navigation.goBack();
+        console.log("Imagem cadastrada.")
+        getDownloadURL(imagemRef)
+          .then((url) => {
+
+            const docRef = doc(db, "pesquisas", evento.id);
+            const docPesquisa = {
+              dataPesquisa: selectedDate.toLocaleDateString('pt-BR'),
+              nome: nome,
+              imageUrl: url
+            };
+
+            updateDoc(docRef, docPesquisa)
+              .then(() => {
+                console.log("Pesquisa modificada com sucesso.");
+                navigation.goBack();
+                navigation.goBack();
+              })
+              .catch((error) => {
+                console.log("Erro", error);
+              });
+          })
+          .catch((error) => {
+            console.log("Ocorreu um erro", error)
+          })
+      }).catch((error) => {
+        console.log("Ocorreu um erro", error)
       })
-      .catch((error) => {
-        console.log("Erro", error);
-      });
   };
 
   const handleDelete = () => {
@@ -96,14 +136,14 @@ const ModificarPesquisa = ({ route, navigation }) => {
         )}
 
         <Text style={styles.label}>Imagem</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://reactnative.dev/img/tiny_logo.png',
-            }}
-          />
-        </View>
+        <TouchableOpacity style={styles.imageContainer} onPress={capturarImagem}>
+          {imageUrl ? (
+            <Image source={{ uri: imageUrl }} style={styles.image} />
+          ) : (
+            <Text style={styles.imageInput}>Câmera/Galeria de imagens</Text>
+          )}
+        </TouchableOpacity>
+
 
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
