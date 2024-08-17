@@ -4,6 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
+import { app } from '../firebase/config'
+import { initializeFirestore, collection, addDoc} from 'firebase/firestore';
 
 export default function NovaPesquisa() {
 
@@ -14,6 +16,23 @@ export default function NovaPesquisa() {
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
   const navigation = useNavigation();
+
+  const db = initializeFirestore(app, {experimentalForceLongPolling: true})
+
+  const pesquisaCollection = collection(db, "pesquisas")
+
+  const addPesquisa = () => {
+    const docPesquisa = {
+      data: data,
+      nome: nome
+    }
+
+    addDoc(pesquisaCollection, docPesquisa).then((docRef) => {
+      console.log("Nova pesquisa criado com sucesso.")
+    }).catch((error) => {
+      console.log("Erro", error)
+    }) 
+  }
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -94,7 +113,7 @@ export default function NovaPesquisa() {
 
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.background} onPress={() => handleSave()}>
+            <TouchableOpacity style={styles.background} onPress={addPesquisa}>
               <Text style={styles.text}>CADASTRAR</Text>
             </TouchableOpacity>
           </View>

@@ -3,12 +3,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import NovaPesquisa from './src/views/NovaPesquisa';
 import Login from './src/views/Login'
 import Drawer from './src/views/Drawer'
-import ModificarPesquisa from './src/views/ModificarPesquisa';
+import ModificarPesquisa from './src/views/modificarPesquisa';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Home from './src/views/home';
-import AcoesPesquisa from './src/views/AcoesPesquisa';
+import AcoesPesquisa from './src/views/acoesPesquisa';
 import NovaConta from './src/views/NovaConta';
 import Coleta from './src/views/Coleta';
 import Relatorio from './src/views/Relatorio';
