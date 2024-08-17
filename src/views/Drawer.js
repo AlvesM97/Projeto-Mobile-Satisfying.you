@@ -3,7 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, StyleSheet } from 'react-native';
 import CustomDrawer from "../components/CustomDrawer";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Home from './home';
+import Home from './Home';
 
 const DrawerNavigator = createDrawerNavigator();
 

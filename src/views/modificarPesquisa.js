@@ -10,10 +10,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {launchCamera} from 'react-native-image-picker'; 
 
 const ModificarPesquisa = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [imagemUri, setImagemUri] = useState(null); 
 
   const onChangeDate = (event, selectedDate) => {
     setShowDatePicker(false);
@@ -29,6 +31,18 @@ const ModificarPesquisa = ({navigation}) => {
   const handleBackViews = () => {
     navigation.goBack();
     navigation.goBack();
+  };
+
+  const capturarImagem = () => {
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+      .then((result) => {
+        if (!result.didCancel && !result.errorCode) {
+          setImagemUri(result.assets[0].uri); 
+        }
+      })
+      .catch((error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error));
+      });
   };
 
   return (
@@ -57,19 +71,18 @@ const ModificarPesquisa = ({navigation}) => {
         )}
 
         <Text style={styles.label}>Imagem</Text>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://reactnative.dev/img/tiny_logo.png',
-            }}
-          />
-        </View>
+        <TouchableOpacity style={styles.imageContainer} onPress={capturarImagem}>
+          {imagemUri ? (
+            <Image source={{ uri: imagemUri }} style={styles.image} />
+          ) : (
+            <Text style={styles.imageInput}>Imagem do Projeto</Text>
+          )}
+        </TouchableOpacity>
 
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             style={styles.background}
-            onPress={() => handleBackViews()}>
+            onPress={handleBackViews}>
             <Text style={styles.text}>Salvar</Text>
           </TouchableOpacity>
         </View>
@@ -119,9 +132,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     backgroundColor: 'white',
   },
-  calendarIcon: {
-    marginLeft: 10,
-  },
   imageContainer: {
     height: 80,
     backgroundColor: '#F0F0F0',
@@ -133,6 +143,13 @@ const styles = StyleSheet.create({
   image: {
     height: 70,
     width: 70,
+    resizeMode: 'cover',
+  },
+  imageInput: {
+    fontSize: 15,
+    color: "#3F92C5",
+    textAlignVertical: 'center',
+    padding: 2,
   },
   buttonsContainer: {
     justifyContent: 'space-between',

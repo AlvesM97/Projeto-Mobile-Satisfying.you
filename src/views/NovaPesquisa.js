@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Botao from '../components/Botao';
 import { useNavigation } from '@react-navigation/native';
-import { app } from '../firebase/config'
-import { initializeFirestore, collection, addDoc} from 'firebase/firestore';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 export default function NovaPesquisa() {
 
@@ -15,23 +14,20 @@ export default function NovaPesquisa() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
+  const [imagemUri, setImagemUri] = useState(null);  
   const navigation = useNavigation();
 
-  const db = initializeFirestore(app, {experimentalForceLongPolling: true})
-
-  const pesquisaCollection = collection(db, "pesquisas")
-
-  const addPesquisa = () => {
-    const docPesquisa = {
-      data: data,
-      nome: nome
-    }
-
-    addDoc(pesquisaCollection, docPesquisa).then((docRef) => {
-      console.log("Nova pesquisa criado com sucesso.")
-    }).catch((error) => {
-      console.log("Erro", error)
-    }) 
+  const capturarImagem = () => {
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+      .then((result) => {
+        if (!result.didCancel && !result.errorCode) {
+          setImagemUri(result.assets[0].uri);  
+          console.log("Deu bom ao capturar imagem: " + JSON.stringify(result));
+        }
+      })
+      .catch((error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error));
+      });
   }
 
   const onChangeDate = (event, selectedDate) => {
@@ -49,7 +45,7 @@ export default function NovaPesquisa() {
 
   const validateData = () => {
     if (!nome.trim()) {
-      setNomeError('Preencha no nome da pesquisa.');
+      setNomeError('Preencha o nome da pesquisa.');
       return false;
     } else {
       setNomeError('');
@@ -102,21 +98,18 @@ export default function NovaPesquisa() {
         {dataError ? <Text style={styles.errorText}>{dataError}</Text> : null}
 
         <Text style={styles.label}>Imagem</Text>
-        <View style={styles.imageContainer}>
-          <TextInput
-            style={styles.imageInput}
-            multiline
-            numberOfLines={4}
-            placeholder="Câmera/Galeria de imagens"
-          />
-        </View>
+        <TouchableOpacity style={styles.imageContainer} onPress={capturarImagem}>
+          {imagemUri ? (
+            <Image source={{ uri: imagemUri }} style={styles.image} />
+          ) : (
+            <Text style={styles.imageInput}>Câmera/Galeria de imagens</Text>
+          )}
+        </TouchableOpacity>
 
         <View style={styles.buttonsContainer}>
-          <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.background} onPress={addPesquisa}>
-              <Text style={styles.text}>CADASTRAR</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={styles.background} onPress={handleSave}>
+            <Text style={styles.text}>CADASTRAR</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -153,20 +146,24 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     backgroundColor: "white"
   },
-  calendarIcon: {
-    marginLeft: 10,
-  },
   imageContainer: {
     height: 80,
     backgroundColor: '#F0F0F0',
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    width: "50%"
+    width: "50%",
   },
   image: {
     height: 70,
     width: 70,
+    resizeMode: 'cover', 
+  },
+  imageInput: {
+    fontSize: 15,
+    color: "#3F92C5",
+    textAlignVertical: 'center',
+    padding: 2,
   },
   buttonsContainer: {
     justifyContent: 'space-between',
