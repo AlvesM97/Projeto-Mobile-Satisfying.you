@@ -16,29 +16,23 @@ export default function NovaPesquisa() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [nomeError, setNomeError] = useState('');
   const [dataError, setDataError] = useState('');
-  const [urlFoto, setUrlFoto] = useState('')
-  const [foto, setFoto] = useState(null)
+  const [imagemUri, setImagemUri] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [transferred, setTransferred] = useState(0);  
   const navigation = useNavigation();
 
   const capturarImagem = () => {
-    launchImageLibrary({
-      mediaType: 'photo', // Opcional, pode especificar o tipo de mídia
-      includeBase64: false, // Se precisar da imagem em base64, defina como true
-    })
-    .then((result) => {
-      if (result.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (result.errorCode) {
-        console.log("Error: ", result.errorMessage);
-      } else if (result.assets && result.assets.length > 0) {
-        setUrlFoto(result.assets[0].uri);
-        setFoto(result.assets[0]);
-      }
-    })
-    .catch((error) => {
-      console.log("Erro: ", error);
-    });
-  };
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+      .then((result) => {
+        if (!result.didCancel && !result.errorCode) {
+          setImagemUri(result.assets[0].uri);  
+          console.log("Deu bom ao capturar imagem: " + JSON.stringify(result));
+        }
+      })
+      .catch((error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error));
+      });
+  }
 
   const db = initializeFirestore(app, {experimentalForceLongPolling: true})
 
@@ -125,26 +119,15 @@ export default function NovaPesquisa() {
         {dataError ? <Text style={styles.errorText}>{dataError}</Text> : null}
 
         <Text style={styles.label}>Imagem</Text>
-        <View style={styles.imageContainer}>
-          <TextInput
-            style={styles.imageInput}
-            multiline
-            numberOfLines={4}
-            placeholder="Câmera/Galeria de imagens"
-          />
-        </View>
-
-        {urlFoto ? (
-        <Image source={{ uri: urlFoto }} style={{ width: 100, height: 100 }} />
-      ) : null}
-        
+        <TouchableOpacity style={styles.imageContainer} onPress={capturarImagem}>
+          {imagemUri ? (
+            <Image source={{ uri: imagemUri }} style={styles.image} />
+          ) : (
+            <Text style={styles.imageInput}>Câmera/Galeria de imagens</Text>
+          )}
+        </TouchableOpacity>
 
         <View style={styles.buttonsContainer}>
-        <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.background} onPress={capturarImagem}>
-              <Text style={styles.text}>CAPTURAR IMAGEM</Text>
-            </TouchableOpacity>
-          </View>
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.background} onPress={addPesquisa}>
               <Text style={styles.text}>CADASTRAR</Text>
