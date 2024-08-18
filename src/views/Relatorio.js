@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import PureChart from 'react-native-pure-chart';
 
 const Relatorio = () => {
@@ -15,16 +15,10 @@ const Relatorio = () => {
     <View style={styles.container}>
       <View style={styles.chartContainer}>
         <PureChart data={data} type="pie" height={200} />
-        <View style={styles.legendContainer}>
-          {data.reverse().map((item, index) => (
-            <View key={index} style={styles.legendItem}>
-              <View
-                style={[styles.legendColor, {backgroundColor: item.color}]}
-              />
-              <Text style={styles.legendText}>{item.label}</Text>
-            </View>
-          ))}
-        </View>
+        <Image
+          source={require('../imagens/legendaRelatorio.png')}
+          style={styles.image}
+        />
       </View>
     </View>
   );
@@ -41,23 +35,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  legendContainer: {
-    marginLeft: 40,
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  legendColor: {
-    width: 16,
-    height: 16,
-    marginRight: 8,
-  },
-  legendText: {
-    color: 'white',
-    fontSize: 16,
-    fontFamily: 'AveriaLibre-Regular',
+  image: {
+    width: 200,
+    height: 200,
+    marginLeft: 20,
   },
 });
 
